@@ -13,21 +13,20 @@ pipeline {
             }
         } 
         stage ('terraform format check') {
-           staps {
+           steps {
               sh "terraform fmt"
             }
         }
         stage ('terraform init') {
-           stape {
+           steps {
               sh "terraform init"
             }
         }
         stage ('terraform Action') {
-           staps {
+           steps {
               echo "terraform action is --> $(action)"
               sh ("terraform $(action)  --auto-approve")
             }
         }
     }
-}  
-
+}        
