@@ -8,7 +8,7 @@ pipeline {
     
   stages ('git checkout') {
     stage {
-       git branch: 'main',credentialsid:'github',url:''
+       git branch: 'main',credentialsid:'github',url:'https://github.com/dvsingh37/Demo1.git'
           }
   } 
   stages ('terraform format check') {
