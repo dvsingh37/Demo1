@@ -4,29 +4,33 @@ pipeline {
   environment {
         AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+  }
+    
+  stages {
+    stage('Cloning Git') {
+      steps {
+        checkout scm
+      }
     }
     
-  stages  {
-    stage ('git checkout') {
+    stage('Format check') {
       steps {
-              scm checkout
-            }
-        } 
-    stage ('terraform format check') {
-      steps {
-              sh "terraform fmt"
-            }
-        }
-    stage ('terraform init') {
-      steps {
-              sh "terraform init"
-            }
-        }
-    stage ('terraform Action') {
-      steps {
-              echo "terraform action is --> $action"
-              sh ("terraform $action  --auto-approve")
-            }
-        }
+        sh 'terraform fmt'
+      }
     }
-}        
+
+    stage('Terraform init') {
+      steps {
+        sh 'terraform init'
+      }
+    }
+
+    stage('Terraform Action') {
+      steps {
+        echo "Terraform action is --> ${action}"
+        sh 'terraform ${action} --auto-approve'
+      }
+    }
+
+  }
+}
