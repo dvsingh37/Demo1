@@ -1,14 +1,13 @@
 provider "aws" {
-    region = "ap-south-1"
+  region     = "us-east-1"
 }
-resource "aws_instance" "linux" {
-  ami      = "ami-0eb070c40e6a142a3"
+
+resource "aws_instance" "ourfirst" {
+  ami           = "ami-0ac4dfaf1c5c0cce9"
   instance_type = "t2.micro"
-  key_name      = "dv_aws"
-  tags = {
-     name = "test_server"
-     source = "terraform"
-     
-    }  
-    
+  lifecycle {
+    prevent_destroy = false
+    ignore_changes  = ["ami", ]
+  }
+
 }
