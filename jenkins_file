@@ -28,8 +28,8 @@ pipeline {
             script {
                sh 'terraform init -input=false'
               
-               sh "terraform plan -input=false -out tfplan "
-               sh 'terraform show -no-color tfplan > tfplan.txt' 
+               sh "terraform plan -input=false -out terraform_ec2_create "
+               sh 'terraform show -no-color tfplan > terraform_ec2_create' 
             }
          }
     }
@@ -49,7 +49,7 @@ pipeline {
 
            steps {
                script {
-                    def plan = readFile 'tfplan.txt'
+                    def plan = readFile 'terraform_ec2_create'
                     input message: "Do you want to apply the plan?",
                     parameters: [text(name: 'Plan', description: 'Please review the plan', defaultValue: plan)]
                }
@@ -64,7 +64,7 @@ pipeline {
             }
             
             steps {
-                sh "terraform apply -input=false tfplan"
+                sh "terraform apply -input=false terraform_ec2_create"
             }
         }
         
