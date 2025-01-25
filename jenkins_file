@@ -4,26 +4,30 @@ pipeline {
   environment {
         AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
-  }
+    }
     
-  stages ('git checkout') {
-    stage {
-       git branch: 'main',credentialsid:'github',url:'https://github.com/dvsingh37/Demo1.git'
-          }
-  } 
-  stages ('terraform format check') {
-     stage {
-       sh "terraform fmt"
-      }
-  }
-  stages ('terraform init') {
-     stage {
-       sh "terraform init"
-      }
-  }
-  stages ('terraform Action') {
-     stage {
-      echo "terraform action is --> $(action)"
-      sh ("terraform $(action)  --auto-approve")
-      }
-  }
+    stages ('git checkout') {
+        stage {
+           steps {
+              git branch: 'main',credentialsid:'github', url:'https://github.com/dvsingh37/Demo1.git'
+            }
+        } 
+        stage ('terraform format check') {
+           staps {
+              sh "terraform fmt"
+            }
+        }
+        stage ('terraform init') {
+           stape {
+              sh "terraform init"
+            }
+        }
+        stage ('terraform Action') {
+           staps {
+              echo "terraform action is --> $(action)"
+              sh ("terraform $(action)  --auto-approve")
+            }
+        }
+    }
+}  
+
